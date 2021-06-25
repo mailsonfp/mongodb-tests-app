@@ -14,7 +14,7 @@ public class Post {
 	@Id
 	private String id;
 	
-	private String codigo;
+	private String code;
 	
 	private String title;
 

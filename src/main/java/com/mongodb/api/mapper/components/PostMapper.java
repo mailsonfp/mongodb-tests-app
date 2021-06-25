@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.api.mapper.dto.input.PostInputDto;
+import com.mongodb.api.mapper.dto.output.CommentOutputDto;
+import com.mongodb.api.mapper.dto.output.PostCommentOutputDto;
 import com.mongodb.api.mapper.dto.output.PostOutputDto;
 import com.mongodb.domain.model.Post;
 
@@ -33,5 +35,13 @@ public class PostMapper {
 		return posts.stream()
 				.map(post -> toModel(post))
 				.collect(Collectors.toList());
+	}
+	
+	public PostCommentOutputDto toModelWithComments(PostOutputDto post, List<CommentOutputDto> comments) {
+		PostCommentOutputDto postComments = new PostCommentOutputDto();
+		postComments.setPost(post);
+		postComments.setComments(comments);
+		
+		return postComments;
 	}
 }
