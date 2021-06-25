@@ -1,6 +1,7 @@
 package com.mongodb.domain.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ public class CommentService {
 	
 	public List<Comment> listByPost(Post post){
 		return commentRepository.findByPostCode(post.getCode()).orElse(null);
+	}
+	
+	public List<Comment> listByAuthorName(String authorName){
+		return commentRepository.findByAuthorName(authorName).orElse(new ArrayList<>());
 	}
 	
 	public Comment save(Post post, Comment comment) {
