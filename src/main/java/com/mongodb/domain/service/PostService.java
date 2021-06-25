@@ -1,6 +1,7 @@
 package com.mongodb.domain.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,9 @@ public class PostService {
 		post.setCodigo(UUID.randomUUID().toString());
 		post.setCreationDate(LocalDateTime.now());
 		return postRepository.insert(post);
+	}
+
+	public List<Post> listAll() {		
+		return postRepository.findAll();
 	}
 }

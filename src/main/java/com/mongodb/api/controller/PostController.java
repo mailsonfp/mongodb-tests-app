@@ -1,10 +1,14 @@
 package com.mongodb.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.api.mapper.components.PostMapper;
@@ -22,11 +26,17 @@ public class PostController {
 	@Autowired
 	PostMapper postMapper;
 	
+	@GetMapping
+	public List<PostOutputDto> listAll(){
+		return postMapper.toCollectionModel(postService.listAll());
+	}
+	
 	@PostMapping
-	public ResponseEntity<PostOutputDto> save(@RequestBody PostInputDto post) {
+	@ResponseStatus(HttpStatus.CREATED)
+	public PostOutputDto save(@RequestBody PostInputDto post) {
 		var postDomain = postMapper.toDomainObject(post);
 		postService.save(postDomain);				
 		
-		return ResponseEntity.ok(postMapper.toModel(postDomain));
+		return postMapper.toModel(postDomain);
 	}
 }

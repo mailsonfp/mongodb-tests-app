@@ -1,0 +1,24 @@
+version: "3.9"
+
+networks:
+  mongo-network:
+    driver: bridge
+
+services:
+  mongodb-docker:
+    image: mongo
+    restart: always  
+    networks:
+      - mongo-network    
+
+  mongodb-tests-api:
+    image: mongodb-tests-api
+    entrypoint: ["/docker-entrypoint.sh", "mongodb-docker:27017", "-t", "30", "--", "java", "-jar", "api.jar"]
+    environment:
+      DB_HOST: mongodb-docker  
+    ports:
+      - "8080:8080"
+    networks:
+      - mongo-network
+    depends_on:
+      - mongodb-docker
